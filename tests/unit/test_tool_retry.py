@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import pytest
 
-import kama_claude.core.tools.invocation as inv_mod
-from kama_claude.core.events.bus import EventBus
-from kama_claude.core.llm.types import ToolCallBlock
-from kama_claude.core.tools.base import BaseTool, ToolResult
-from kama_claude.core.tools.errors import RateLimitedError
-from kama_claude.core.tools.invocation import invoke_tool
-from kama_claude.core.tools.registry import ToolRegistry
+import dong_claude.core.tools.invocation as inv_mod
+from dong_claude.core.events.bus import EventBus
+from dong_claude.core.llm.types import ToolCallBlock
+from dong_claude.core.tools.base import BaseTool, ToolResult
+from dong_claude.core.tools.errors import RateLimitedError
+from dong_claude.core.tools.invocation import invoke_tool
+from dong_claude.core.tools.registry import ToolRegistry
 
 # --- stub tools --------------------------------------------------------------
 

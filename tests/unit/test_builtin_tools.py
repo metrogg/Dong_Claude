@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from kama_claude.core.tools.builtin.bash import BashTool
-from kama_claude.core.tools.builtin.list_dir import ListDirTool
-from kama_claude.core.tools.builtin.write_file import WriteFileTool
+from dong_claude.core.tools.builtin.bash import BashTool
+from dong_claude.core.tools.builtin.list_dir import ListDirTool
+from dong_claude.core.tools.builtin.write_file import WriteFileTool
 
 # ── bash ──────────────────────────────────────────────────────────────────────
 
