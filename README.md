@@ -29,19 +29,80 @@ dong (CLI)      dong-tui (TUI)
 ```
 用户目标
   → CLI / TUI
-  → JSON-RPC over NDJSON
+  → JSON-RPC over NDJSON（TCP）
   → dong-core daemon
   → AgentRunner
-  → AgentLoop
-  → LLM Provider
+  → AgentLoop (ReAct)
+  → LLM Provider ←→ 大模型 API
   → ToolRegistry
-  → PermissionManager
-  → EventBus
-  → Session Store
+    ↓
+  PermissionManager → 工具调用 → 结果回填
+  → EventBus（事件流分发）
+  → Session Store（会话记忆）
   → TUI 实时渲染 / events.jsonl 持久化 / trace 回放
 ```
 
-![](docs/images/20260610114820_DongClaude架构图-分层版.png)
+**系统分层架构：**
+
+```mermaid
+flowchart TB
+    subgraph Client[客户端层]
+        CLI[dong CLI]
+        TUI[dong TUI<br/>textual]
+    end
+
+    subgraph IPC[IPC 传输层 JSON-RPC 2.0 over NDJSON / TCP]
+        direction LR
+        SOCK[Socket Server<br/>127.0.0.1:7437]
+        IPCB[IPC Broadcaster<br/>事件广播]
+    end
+
+    subgraph Core[dong-core Daemon]
+        RUNNER[AgentRunner]
+        LOOP[AgentLoop ReAct]
+        subgraph Modules[核心模块]
+            LLM[LLM Provider<br/>流式调用]
+            TOOLS[ToolRegistry<br/>内置工具 bash/read/write/list]
+            PERM[PermissionManager<br/>权限审批/重试]
+            EVT[EventBus<br/>事件分发/持久化]
+            SESS[Session Manager<br/>thread/notes 分层记忆]
+            CMP[Compactor<br/>上下文压缩/水位检测]
+            SKILL[Skills Loader]
+            SUB[Subagent Registry<br/>多 Agent 编排]
+            MCP[MCP Client<br/>外部工具接入]
+            TRACE[Trace Provider<br/>可回放追踪]
+        end
+    end
+
+    subgraph Storage[持久化]
+        EVTF[events.jsonl]
+        TRACEF[traces/*.jsonl]
+        CFG[~/.dong/config.toml]
+        POLICY[~/.dong/policy.toml]
+        SESSF[~/.dong/sessions/]
+    end
+
+    CLI --> SOCK
+    TUI --> SOCK
+    SOCK <--> RUNNER
+    RUNNER --> LOOP
+    IPCB <--> EVT
+    LOOP <--> LLM
+    LOOP --> TOOLS
+    TOOLS --> PERM
+    LOOP --> EVT
+    LOOP <--> SESS
+    LOOP --> CMP
+    LOOP --> SKILL
+    LOOP --> SUB
+    LOOP --> MCP
+    LOOP --> TRACE
+    EVT --> EVTF
+    TRACE --> TRACEF
+    PERM --> POLICY
+    SESS --> SESSF
+    CFG -.-> Core
+```
 
 ## 核心特性
 
