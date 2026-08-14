@@ -1,0 +1,32 @@
+README.md
+  s_b5870dc9bd9d06::t_120a83880f6694 32,35-36,38-41,45-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "2c901417a0aae7cf7cb985d2946f1f43014ebb08",
+  "prompts": {},
+  "sessions": {
+    "s_b5870dc9bd9d06": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a7d9ab99798ae252f9c149d",
+        "model": "Doubao-Seed-2.1-pro"
+      },
+      "human_author": "metrogg <146624525+metrogg@users.noreply.github.com>",
+      "custom_attributes": {
+        "source_scene": "agent",
+        "runtime_client": "trae-tob-git-ai",
+        "client_type": "ide",
+        "edit_kind": "file_edit",
+        "dedupe_key": "6a7d9ab99798ae252f9c149d:6a7ef18f9798ae252f9c189b:afterEdit:06dcac91",
+        "session_id": "6a7d9ab99798ae252f9c149d",
+        "tool_type": "builtin",
+        "operation_id": "6a7ef18f9798ae252f9c189b",
+        "external_session_id": "6a7d9ab99798ae252f9c149d",
+        "tool_use_id": "6a7ef18f9798ae252f9c189b",
+        "tool_id": "icube:applyChatSnapshotPatch"
+      }
+    }
+  }
+}
